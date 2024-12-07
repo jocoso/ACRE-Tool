@@ -1,61 +1,31 @@
-from abc import ABC, abstractmethod
-
-# Core Engine
-class GameEngine:
-    def __init__(self, player):
-        self.modules = []
-
-    def add_module(self, module):
-        self.modules.append(module)
-
-    def run(self):
-        while True:
-            for module in self.modules:
-                module.execute()
-
+# Abstract Base Class for Modules
 class Module(ABC):
     @abstractmethod
     def execute(self):
-        """Executes module"""
+        """Executes the module's functionality."""
         pass
 
+# Abstract Base Class for Pieces (like Player)
 class Piece(ABC):
-    def __init__ (self, name, description):
+    def __init__(self, name, description):
         self.name = name
         self.description = description
         self.data = []
-        
+
     def update(self):
-        """Update Piece"""
+        """Update the Piece (e.g., player behavior or status)."""
         pass
-    
-    
+
 class Player(Piece):
     def __init__(self):
-        super().__init__(self, "player piece", "main player.")
-    def update(self):
-        pass
-                
-class InputMap(Module):
-    def __init__(self):
-        self.commands = []
-        self.user_input = ""
+        super().__init__("player piece", "Main player character.")
         
-    def add_command(self, command):
-        if isinstance(command, Command):
-            self.commands.append(command)
-            
-    def execute(self):
-        self.user_input = input(">: ")
-        for command in self.commands:
-            if command.validate(self.user_input):
-                command.execute()
-            else:
-                print("This command cannot be understood.")
-                
+    def update(self):
+        # Implement player-specific update behavior here
+        pass
+
 # Abstract Base Class for Commands
 class Command(Module):
-    @abstractmethod
     def __init__(self, trigger):
         super().__init__()
         self.trigger = trigger  # Command trigger word or phrase
@@ -68,16 +38,17 @@ class Command(Module):
     def execute(self):
         """Execute the command."""
         pass
-# A Module
 
+# Concrete Command Class: Quit
 class Quit(Command):
     def __init__(self):
-        super().__init__('quit')  # Correct usage of super()
+        super().__init__('quit')  # Initialize the command with its trigger word
 
     def execute(self):
         print("Thank you for playing!")
         exit(0)
 
+# Concrete Module Class: RoomModule (used to display rooms)
 class RoomModule(Module):
     def __init__(self, room_name, description):
         self.room_name = room_name
@@ -87,13 +58,16 @@ class RoomModule(Module):
         print(f"You are in {self.room_name}. {self.description}")
 
 # Example Usage
-
 engine = GameEngine()
+
+# Add room modules to the game engine
 engine.add_module(RoomModule("Lab 1", "A dark, spooky forest with tall trees."))
 engine.add_module(RoomModule("Lab 2", "A calm river flows here."))
 
+# Create and add InputMap with commands
 input_map = InputMap()
-input_map.add_command(Quit())
-engine.add_module(input_map)
+input_map.add_command(Quit())  # Add the Quit command to InputMap
+engine.add_module(input_map)  # Add InputMap to GameEngine
 
+# Run the game engine
 engine.run()
