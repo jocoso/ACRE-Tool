@@ -1,83 +1,102 @@
+"""
+Author: Joshua Collado Soler
+Date: December 9, 2024
+Project: Player Name Validation Suite
+Description:
+    This script is designed to validate and format player names according to
+    game-specific rules. It includes comprehensive testing for valid and invalid
+    names, logging of results, and name normalization methods.
+
+Acknowledgments:
+    Special thanks to the open-source community for inspiration and support.
+
+License:
+    All rights reserved by Joshua Collado Soler. Sharing or reusing this code requires attribution.
+"""
+
+
+import re
+import logging
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
+
 class AskPlayerNameTestSuite:
 
     def __init__(self):
-        """The name of the character as given by the player"""
         self.attributes = {'name': "noor"}
         self.test_names = [
             # Valid Names
-            "Noor",  # Valid default name
-            "Jean-Paul",  # Valid name with hyphen
-            "O'Connor",  # Valid name with apostrophe
-            "Ava",  # Short valid name
-            "LoremIpsumDolorSitAmetConsecteturAdipiscingElit",  # 50 characters, valid
-
+            "Noor", "Jean-Paul", "O'Connor", "Ava",
+            "LoremIpsumDolorSitAmetConsecteturAdipiscingElit",
             # Invalid Names - Length
-            "A",  # Too short (1 character)
-            "Lo",  # Too short (2 characters)
-            "LoremIpsumDolorSitAmetConsecteturAdipiscingElit12345",  # Too long (51 characters)
-
+            "A", "Lo", "LoremIpsumDolorSitAmetConsecteturAdipiscingElit12345",
             # Invalid Names - Special Characters
-            "John@",  # Contains invalid special character
-            "M@ry#",  # Multiple invalid special characters
-            "Asterisk*Name",  # Contains invalid special character
-
+            "John@", "M@ry#", "Asterisk*Name",
             # Invalid Names - Spaces
-            " Noor ",  # Leading and trailing spaces
-            "Noor El Amin",  # Spaces in the middle
-            "   ",  # Only spaces
-
+            " Noor ", "Noor El Amin", "   ",
             # Invalid Names - Hyphen/Apostrophe Misuse
-            "-Noor",  # Starts with a hyphen
-            "Noor-",  # Ends with a hyphen
-            "'Noor",  # Starts with an apostrophe
-            "Noor'",  # Ends with an apostrophe
-
+            "-Noor", "Noor-", "'Noor", "Noor'",
             # Edge Cases
-            "-----",  # Only hyphens
-            "''''''",  # Only apostrophes
-            "12345",  # Contains only numbers
-            "Noor123",  # Mix of valid name and numbers
-            "Lo@rem Ipsum's Name--",  # Mix of multiple invalid elements
-            "",  # Empty string
-            "Nooré",  # Contains accented character
-            "نور",  # Arabic script
-            "山田太郎",  # Japanese script
-            "Анна",  # Cyrillic script
-            "Noör"  # Contains diacritic character
+            "-----", "''''''", "12345", "Noor123",
+            "Lo@rem Ipsum's Name--", "", "Nooré", "نور", "山田太郎", "Анна", "Noör"
         ]
 
     def has_passed_test(self, test_purpose, test_succeeded):
-        print(f'\t{test_purpose}: {"PASSED" if test_succeeded else "FAILED"}.')
+        status = "PASSED" if test_succeeded else "FAILED"
+        logger.info(f'\t{test_purpose}: {status}')
 
-    def _normalize_input(self):
-        """Assures that user inputs are properly formatted."""
-        print(f'Checking length constraints for: "{self.attributes["name"]}"...')
-
+    def normalize_input(self):
+        """Validate the input name."""
         current_name = self.attributes['name']
+        logger.info(f'Validating name: "{current_name}"')
 
-        lt_50 = len(current_name) <= 50 
-        boe_3 = len(current_name) >= 3
+        # Check individual conditions
+        validations = {
+            "Name length is between 3 and 50 characters": self._is_valid_length(current_name),
+        "Name has no invalid special characters": self._has_no_special_characters(current_name),
+        }
+        
+        for purpose, result in validations.items():
+            self.has_passed_test(purpose, result)
+        
+        return all(validations.values())
 
-        valid_name = lt_50 and boe_3
+    def _is_valid_length(self, name):
+        return 3 <= len(name) <= 50
 
-        self.has_passed_test("Name length is between 3 and 50 characters", valid_name)
+    def _has_no_special_characters(self, name):
+        return re.search("[^a-zA-Z0-9\s'-]", name) is None
 
     def trim_spaces(self):
-        """Assures that white spaces are dealt with consistently."""
-        print(f'trimming {self.attributes["name"]} spaces...')
+        current_name = self.attributes['name']
+        stripped_name = current_name.strip()
+        formatted_name = stripped_name.replace(' ', '-')
+        logger.info(f'Trimmed spaces: "{current_name}" -> "{formatted_name}"')
+        self.attributes['name'] = formatted_name
 
     def to_lower(self):
-        """Returns a lowercase version of the name."""
-        print(f'lowercasing {self.attributes["name"]}...')
+        current_name = self.attributes['name']
+        lowercased_name = current_name.lower()
+        logger.info(f'Lowercased name: "{current_name}" -> "{lowercased_name}"')
+        self.attributes['name'] = lowercased_name
 
-    def update(self):
+    def test(self):
         for idx, name in enumerate(self.test_names, start=1):
-            self.attributes['name'] = name  # Update the name being tested
-            print(f'Test Case {idx}: Testing name: {name}')
-            self._normalize_input()
+            logger.info(f'\nTest Case {idx}: Testing name: "{name}"')
+            self.attributes['name'] = name.strip()
+
+            validations_passed = self.normalize_input()
             self.trim_spaces()
             self.to_lower()
 
+            final_name = self.attributes['name']
+            logger.info(f'Final processed name: "{final_name}"\n')
+
+            assert validations_passed, f"Validation failed for name: {name}"
+            assert final_name, "Final name is empty!"
+
 
 if __name__ == '__main__':
-    AskPlayerNameTestSuite().update()
+    AskPlayerNameTestSuite().test()
