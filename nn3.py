@@ -46,7 +46,7 @@ class Piece(ABC):
     def __init__(self, name, description):
         self.name = name
         self.description = description
-
+    @abstractmethod
     def update(self):
         """Update piece state."""
         pass
@@ -56,6 +56,7 @@ class Piece(ABC):
 class PlayerPiece(Piece):
     def __init__(self):
         super().__init__("Player", "The main character of the game.")
+        self.data = {}
 
     def update(self):
         """Player-specific update logic."""
@@ -73,19 +74,21 @@ class InputMapModule(Module):
             self.commands[command.trigger] = command
         else:
             raise TypeError("Only instances of Command can be added as commands.")
-
-    def execute(self):
-        """Handle user input and execute commands."""
-        user_input = input(">: ").strip().lower()
+    
+    def process_command(self, input):
         command = self.commands.get(user_input)
         if command:
             command.execute()
         else:
             print("This command cannot be understood.")
 
+    def execute(self):
+        user_input = input(">: ").strip().lower()
+        self.handle_input(user_input)
+
 
 # Abstract Command Base Class
-class Command(ABC):
+class Command(Piece):
     def __init__(self, trigger):
         self.trigger = trigger  # Command trigger word or phrase
 
@@ -94,7 +97,7 @@ class Command(ABC):
         return user_input.strip().lower() == self.trigger
 
     @abstractmethod
-    def execute(self):
+    def update(self):
         """Execute the command."""
         pass
 
@@ -105,7 +108,7 @@ class QuitCommand(Command):
         super().__init__('quit')
         self.engine = engine
 
-    def execute(self):
+    def update(self):
         print("Thank you for playing!")
         self.engine.running = False  # Stop the game loop
 
@@ -114,9 +117,10 @@ class QuitCommand(Command):
 class RoomPiece(Piece):
     def __init__(self, room_name, description):
         super().__init__(room_name, description)
-
-    def update(self):
+    def describe_room(self):
         print(f"You are in {self.name}. {self.description}")
+    def update(self):
+        self.describe_room()
 
 
 # Map Grid Module
@@ -130,9 +134,17 @@ class MapGridModule(Module):
             return self.x is not None and self.y is not None
 
     def __init__(self, size_x, size_y):
-        self.size_x = size_x
-        self.size_y = size_y
+        self.size_vector = Vector(size_x, size_y)
         self.map_grid = [[None for _ in range(size_x)] for _ in range(size_y)]
+        
+    def add_to_first_empty_space(self, element):
+        """Adds the element to the first available empty space in the grid."""
+        for y in range(self.size_vector.y):
+            for x in range(self.size_vector.x):
+                if self.map_grid[y][x] is None:  # Check for an empty cell
+                    self.map_grid[y][x] = element
+                    return True
+        return False
 
     def add_room(self, room_piece, location=None):
         if location and location.is_valid():
@@ -142,7 +154,15 @@ class MapGridModule(Module):
             else:
                 print(f"Location ({location.x}, {location.y}) is already occupied.")
         else:
-            print("Invalid location provided.")
+            if not self.add_to_first_empty_space(room_piece):
+                print(f"Currently there isn't any room available inside your grid. Please resize the grid to add more room.")
+                
+    def remove_room(self, location):
+        if location and location.is_valid():
+            if self.map_grid[location.y][location.x] is not None:
+                self.map_grid[location.y][location.x] = None
+                print(f"Room '{room_piece.name}' removed.")
+            
 
     def execute(self):
         """Display the map grid."""
