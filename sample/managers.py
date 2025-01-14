@@ -1,10 +1,16 @@
 class PropManager:
     def __init__(self):
+        # List of strings containing the prefab data.
         self.props_list = []
+        
+        # List of Props containing all the props to be used in the game.
+        self.inventory = {}
+        # Generic props and sets used for placeholding when default argument is None.
+        self.prop_continuity = {}
+        
+        # XXX: Unneeded for now
         self.budget = 0.0
         self.expenses = 0.0
-        self.inventory = {}
-        self.prop_continuity = {}
     
     def read_script(self, script):
         """Read and break down the script to create a detailed props list."""
@@ -149,10 +155,11 @@ class PropManager:
     def maintain_logical_progression(self):
         """Maintain logical progression of props throughout the story (props breakdown)."""
         # Implementation for maintaining logical progression
+        pass
 
 
-class PropManager:
+class StageManager:
     def __init__(self):
         pass
     def __inner_test__(self):
-        print("PropManager works as intended.")
+        print("StageManager works as intended.")
