@@ -1,7 +1,3 @@
-Certainly! Below is a reformatted and organized version of your text, which improves clarity and structure while maintaining the original content.
-
----
-
 # Active Reading Tool (ACRE Tool)
 
 The **Active Reading Tool (ACRE Tool)** is a program designed to enhance engagement in reading by creating a unique interactive experience that resembles the interactivity of a video game, all within the format of a book.
@@ -97,147 +93,275 @@ The **Stage Manager** is responsible for the smooth operation of all activities 
 ```python
 class PropManager:
     def __init__(self):
-        # List of all the game prop data obtained from the script.
-        self.props_list = []
-        # Budget and expenses (currently not in use but kept for future needs).
-        self.budget = 0.0
-        self.expenses = 0.0
-        # All instances of props.
+    
+        # A comprehensive list of all Prop's to be in the game categorized by an unique id.
+        self.props_list = {}
+
+        # A comprehensive list of the prefabs of all the Prop's to be in the game categorized by an unique id.
         self.inventory = {}
-        # Props that come with the library by default, used mostly for testing.
-        self.prop_continuity = {}
+
+        # A list of Props divided by: 
+        # public - Props that exist in the game at the moment of gameplay categorized by prop id.
+        # cache - Cached Props are added when a Prop is created, modified, updated or deleted during a game session, as a safeguard.
+        self.prop_continuity = {public:{}, cache:{}}
+
+    def nullify(class):
+        """Creates an instance of a NullObject type based on the class passed as a parameter."""
+        # Implementation for searching for the empty object in prop_continuity.
+		# Implementation for making a Prop instance into a Null object if None is found.
+		# Implementation for adding the Null object to prop_continuity.
+
+	# Verify if an instance of the NullObject we are looking for already lives in the class, if it does not:
+		# Ceate an instance of a NullObject,
+		# add the instance to the local repository.
+	# However, if the NullObject has been already created and can be found in the local repository:
+		# Get the NullObject,
+		# Return the NullObject.
+
+	# Returns Null Object.
+	return None
 
     def read_script(self, script):
         """Read and break down the script to create a detailed props list."""
-        # Implementation to parse the script and create a props list
-        pass
+        # Implementation to parse the script...
+		# Implementation for adding props to inventory. 
+        returns {}
 
-    def finalize_requirements(self, director, production_designer, art_department):
-        """Collaborate with the director, production designer, and art department to finalize prop requirements."""
-        # Implementation for collaboration
-        return False
+    def finalize_requirements(self, title_id):
+        """Generates and returns a toolbox designed for an unique title_id."""
+        # Finds the architecture for title_id
+		# If none is found, leave with nullify(PropToolbox)
+	# If one is found, create the toolbox in accordance with their blueprint.
+        return PropToolbox
 
-    def attend_meetings(self):
-        """Attend production meetings and rehearsals."""
-        # Implementation for attending meetings
-        pass
+    def attend_meetings(self, PropToolbox, {additions}):
+        """Modifies a toolbox without changing their blueprint."""
+        # Asures PropToolbox is a healthy instance of the object before proceeding.
+	# Makes a copy of the Toolbox.
 
-    def source_props(self, method, prop_details):
-        """Source props through purchasing, renting, or fabrication."""
-        # Implementation for sourcing props
-        return None
+	# 	If the instance is unhealthy, raises a Warning and returns an instance of nullify(PropToolbox)
+
+	# Go through the list of additions:
+	#	Generate addition (if needed)
+	#	Integrate addition to toolbox
+        
+	# returns a changed toolbox. The lifecycle of this box lasts for as long as the intance exists and ceases existing inside this class after returned.
+	return PropToolbox
+
+    def source_props(self, {tags}, prefab_prop):
+        """Creates and returns an instance of a prop following the Script tags and the prop prefab."""
+        # If prefab_prop, instantiate an empty instance of type prefab_prop.
+	#	Otherwise, instantiate an empty instance of type Prop
+
+	# Traverse the list of tags, for each tag:
+	#	Assign an appropriate spellScripts to the empty Prop.
+        return Prop
 
     def manage_budget(self):
-        """Manage the props budget and track expenses."""
-        # TBD: Can work to determine efficient running. The `budget` will become synonymous with either space or time complexity.
-        pass
+        """Debugger"""
+        # TBD: Can work to determine efficient running. The `budget` will become synonymous with how well the framework executes.
+        return TBD
 
     def supervise_artisans(self, prop):
-        """Supervise prop artisans, carpenters, and assistant prop managers."""
-        # Implementation for supervision
-        pass
+        """Helper function to check if a prop's health. Returns True if the prop can be used in game."""
+        # Verify prop is an intance of prop, if it is not:
+	# 	Trigger InvalidClassError
+	# Verify prop isn't empty, if it is:
+	# 	Trigger EmptyPropWarning
+	# Verify prop contains the SpellScript's required by tag, if it doesn't:
+	#	Calls source_prop function with prop as argument.
+        return Prop
 
-    def plan_resources(self):
-        """Plan and assign labor and resources for prop acquisition and construction."""
-        # Implementation for planning resources
+    def plan_resources(self, actors, items, sets, set_states):
+        """Update and Organizes assets inside the local inventory."""
+        # Verify the inventory is empty, if it is not:
+	#	Udates all the Props inside the local inventory.
+	# Insert actors to local inventory.
+	# Insert items to local inventory.
+	# Insert set_states to local inventory.
         return None
 
     def provide_stand_in_items(self):
-        """Provide stand-in items for early rehearsals."""
-        # Implementation for providing stand-in items
+        """Returns a testing set."""
+        # Call the local source_prop function with a 'testing' tag and a TestingSet class for arguments, however if there is an issue:
+	#	Raise a BasicWarning,
+	#	Call local nullify function with a Set class as argument.
+        return Set
+
+    def setup_props_table(self, previous_table, updated_table):
+        """Adds props to the table at any point. The lifecycle of these props will lasts for as long as the save exists and will be resetted once a new game is started.
+"""
+        # Compare the tables,
+	# Update what is the same,
+	# Insert what is different only if the instace is healthy, if it is not:
+	# 	Raise BasicError and exit.
         pass
 
-    def setup_props_table(self):
-        """Set up and manage props tables backstage."""
-        # Implementation for setting up props tables
+    def ensure_actor_access(self, {Actor}, auth_level):
+        """Changes the level of authorization for at least one instance of Author."""
+        # Verify the list has at least one actor, if not:
+	#	Raise BasicWarning,
+	#	return nothing.
+
+        # For each actor instance in the list:
+	#	Update the instance auth_level
+	return {Actor}
+
+    def maintain_continuity(self, Prop):
+        """Tracks the changes done to each prop and save the previous iteration. This prop function deletes the previous saved instance in the map and substitute it with the new iteration."""
+	# Verify the prop id is in prop_continuity.basic, if it isnt:
+	#	Verify the prop id is in prop_continuity.cache, if it is:
+	#		Function assumes the screenwriter wants the prop back into the game and does so.
+	#	However, if the prop is not in prop_continuity.cache:
+	#		Raise PropNotFoundError and exit.
+	
+	# Verify the prop id is in prop_continuity.cache, if it isnt:
+	# 	Insert the Prop instance located in prop_continuity.basic in prop_continuity.cache by using the prop_unique_id as key.
+	# However, if the prop id is already in prop_continuity.cache:
+	#	Replace the previous instance with the current instance located at prop_continuity.basic,
+	#	Replace the variable containing the previous Prop instance for the new one.
+        return self.prop_continuity.basic
+
+    def secure_valuable_props(self, "script-excerpt"):
+        """Used to instantiate system Props, if or when they are needed."""
+        # While traversing the script-excerpt:
+	#	Verify the excerpt can be turned into a Prop, if it can't:
+	#		Raise UqualifiedSystemPropError and exit
+	#	If the section can be turned into a Prop:
+	#		Instantiate an empty Prop,
+	#		Fill the Prop with the data required,
+	#		Call source_props with the newly instantiate Prop as an argument.
         pass
 
-    def ensure_actor_access(self, character):
-        """Ensure actors have their props before going on stage."""
-        # Implementation for ensuring actors have props
-        return None
+    def coordinate_returns(self, prop_id_list):
+        """Deletes a list of props from the inventory and prop_continuity.basic."""
+        # Traverse each prop_id the prop_list:
+	#	Verify if the prop_id is in the inventory, if yes:
+	#		Delete the prop
+	#	Verify if the prop_id is in the prop_continuity.basic, if yes:
+	#		Delete the prop	
+        #	Returns the instance of the Prop that was deleted.
+	return Prop
 
-    def maintain_continuity(self):
-        """Maintain prop continuity throughout the production."""
-        # Implementation for maintaining continuity
-        return self.prop_continuity
-
-    def secure_valuable_props(self):
-        """Secure valuable props after each performance."""
-        # Implementation for securing props
-        pass
-
-    def coordinate_returns(self, prop_list):
-        """Coordinate the return of rented or borrowed items."""
-        # Implementation for coordinating returns
-        pass
-
-    def organize_storage(self):
-        """Organize prop storage between performances."""
-        # Implementation for organizing storage
-        return ""
+    def organize_storage(self, previous_storage, updated_storage):
+        """Update and save the inventory list to resemble the updated_storage."""
+        # Create an empty list and label it name_storage.
+	# Compare previous_storage with updated_storage, if item doesn't match:
+	#	add item to new list.
+	# however, if the item match:
+	# 	update item,
+	#	add the item to the new list.
+        # Replace previous_storage with the new_storage.
+	pass
 
     def manage_strike_process(self):
-        """Manage the strike process for props at the end of the production."""
-        # Implementation for managing the strike process
+        """Reset the class by returning the  memory to the machine and killing the main loop."""
+        # Validate the user wants to execute this function, if not:
+	#	pass the execution.
+	# Traverse each item in local variable:
+	#	update item,
+	#	save item,
+	#	remove item from memory.
         pass
 
     def maintain_inventory(self):
-        """Maintain an inventory of props and manage the props storage area."""
-        # Implementation for maintaining inventory
+        """Updates the inventory."""
+        # Traverse each item in the local inventory:
+	#	update the item.
         pass
 
-    def research(self, prop, script):
-        """Research historical accuracy of props for period productions."""
-        # Implementation for research
-        pass
+    def research(self, "script_excerpt"):
+        """Instantiates a generic Prop based on script excerpt argument."""
+        # Instantiate a Prop with tags from the script.
+	# Call supervise_prop with the new prop as an argument to add the SpellScript's.
+	# returns the generic prop.
+        return Prop
 
     def train_actors(self, actor_foo, ai_player_type):
-        """Train actors on proper use of props when necessary."""
-        # Implementation for training actors
-        pass
+        """Infuse an actor with AI."""
+        # Verify the ai_player_type exists in the list of AI's, if it does:
+	# 	Infuse the actor with the ai.
+	# However, if it doesn't exist:
+	#	Verify the screenwriter wants the program to use a generic ai, if they do:
+	#		Infuse the action with a generic ai.
+	# return the newly infused actor.
+        return Actor
 
-    def manage_transportation(self, requested_prop):
-        """Manage the transportation of props to and from the production site."""
-        # Implementation for managing transportation
-        return None
+    def manage_transportation(self, requested_prop_id):
+        """Manage the transportation of props from inside this class to other classes."""
+        # Verify requested_prop is in the inventory, if it is:
+	#	Verify requested_prop is in the list of instantiated objects, if it is:
+	#		return the instance of the requested object.
+	#	However, if it is not in instantiated object:
+	#		Call local instantiate_prop with the prefab located in the inventory,
+	#		Insert instance into the list of instantiated objects.
+	# However, if the requested prop is not in the inventory:
+	# Insert into inventory
+	# return the newly created Prop
+        return Prop
 
-    def organize_sale_or_disposal(self):
-        """Organize the sale or disposal of props after the production ends."""
-        # Implementation for organizing sale or disposal
-        pass
 
-    def work_with_special_effects(self):
-        """Work with special effects and stunts departments for specific prop requirements."""
-        # Implementation for collaboration with special effects
-        pass
+    def work_with_special_effects(self, script_excerpt):
+        """Creates a special effect Prop from a script_excerpt"""
+        # Analyze the Excerpt and Retrieve a list of prefabs from the excerpt.
+        # Insert each prefab into the local inventory.
+	pass
 
     def ensure_safety_standards(self):
-        """Ensure props meet safety standards and regulations."""
-        # Implementation for ensuring safety standards
-        pass
+        """Ensure props meet safety standards and regulations of the framework."""
+        # Verify that for each item x, x is missing no components.
+	# returns True if the condition above is met.
+        return True
 
-    def maintain_and_repair(self):
-        """Maintain and repair props as needed throughout the production."""
-        # Implementation for maintenance and repair
-        pass
+    def maintain_and_repair(self, prop_id):
+        """Maintain and repair props as needed throughout the lifecycle."""
+        # Verify if a prop exists with an id that matches prop_id, if one does:
+	# 	Verify if there is a prefab is saved already in the local inventory, if one does:
+	#		Retrieve the prefab,
+	#		Turn it into a Prop,
+	#		Replace the old instance with the newly created one.
+	# 		Return the newly created instance.
+        return Prop
 
-    def create_sets(self, script):
-        """Creates the sets."""
-        # Implementation for creating sets
-        pass
+    def create_sets(self, script_excerpt):
+        """Returns an instance of Set object based on the excerpt."""
+        # Validate that the excerpt can be turned into a Set, if it can not:
+	# 	raise an error.
 
-    def coordinate_with_set_decorator(self, set):
-        """Coordinate with the set decorator to ensure cohesive visual aesthetics."""
-        # Implementation for coordination
-        pass
+	# Creates an prefab based on the script_excerpt.
+	# Pass it to the class to create a new Set.
+	# Test for integrity errors.
+	# Add the prefab to the inventory.
+	# Return the newly created Set
 
-    def oversee_custom_props(self):
-        """Oversee the creation of custom props when necessary."""
-        # Implementation for overseeing custom props
-        pass
+        return Set
 
-    def manage_food_styling(self):
-        """Manage food styling for scenes involving food props."""
-        # Implementation for food styling
+    def coordinate_with_set_decorator(self, Set, {decorations}):
+        """Safetly applies decorations to a Set."""
+        # Verify the integrity of the Set to check it's healthy, if it isn't:
+	#	raise a warning.
+	#	Verify the user wants to proceed, if they don't:
+	#		exit gracefully.
+
+	# Integrate decoration into the Set.
+	# Return the Set.
+        return Set
+
+    def oversee_custom_props(self, script_excerpt or prefab):
+        """Returns a Prop without adding them to the local inventory."""
+        # Verify the excerpt will work as a prefab.
+	# Turn the excerpt into a prefab.
+	# Create an instance of the prefab.
+	# Return the newly created instance.
+	
+        return Prop
+
+    def manage_food_styling(self, script_excerpt):
+        """Returns a consumable prop based on the excerpt."""
+        # Verify the excerpt will work as a prefab.
+        # Turn the excerpt into a prefab.
+        # Create an instance of the prefab.
+        # Return the newly created instance.
+	
+	return ConsumableProp
        
