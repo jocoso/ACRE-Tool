@@ -1,3 +1,7 @@
+Certainly! Below is a reformatted and organized version of your text, which improves clarity and structure while maintaining the original content.
+
+---
+
 # Active Reading Tool (ACRE Tool)
 
 The **Active Reading Tool (ACRE Tool)** is a program designed to enhance engagement in reading by creating a unique interactive experience that resembles the interactivity of a video game, all within the format of a book.
@@ -17,35 +21,35 @@ The **Prop Manager** is responsible for all prop-related tasks, including the wi
 
 ### Responsibilities
 
-1. **Read and break down the script** to create a detailed props list.
-2. **Collaborate with the director, production designer, and art department** to finalize prop requirements.
-3. **Attend production meetings and rehearsals**.
-4. **Source props** through purchasing, renting, or fabrication.
-5. **Manage the props budget** and track expenses.
-6. **Supervise prop artisans, carpenters, and assistant prop managers**.
-7. **Plan and assign labor and resources** for prop acquisition and construction.
-8. **Provide stand-in items for early rehearsals**.
-9. **Set up and manage props tables backstage**.
-10. **Ensure actors have their props** before going on stage.
-11. **Maintain prop continuity** throughout the production.
-12. **Secure valuable props** after each performance.
-13. **Coordinate the return of rented or borrowed items**.
-14. **Organize prop storage** between performances.
-15. **Manage the strike process for props** at the end of the production.
-16. **Maintain an inventory of props** and manage the props storage area.
-17. **Research historical accuracy of props** for period productions.
-18. **Train actors on proper use of props** when necessary.
-19. **Manage the transportation of props** to and from the production site.
-20. **Organize the sale or disposal of props** after the production ends.
-21. **Work with special effects and stunts departments** for specific prop requirements.
-22. **Ensure props meet safety standards and regulations**.
-23. **Maintain and repair props** as needed throughout the production.
-24. **Create a "set and strike" schedule for props**.
-25. **Coordinate with the set decorator** to ensure cohesive visual aesthetics.
-26. **Oversee the creation of custom props** when necessary.
-27. **Manage food styling** for scenes involving food props.
-28. **Handle animals used as props** (in some productions).
-29. **Maintain logical progression of props** throughout the story (props breakdown).
+1. Read and break down the script to create a detailed props list.
+2. Collaborate with the director, production designer, and art department to finalize prop requirements.
+3. Attend production meetings and rehearsals.
+4. Source props through purchasing, renting, or fabrication.
+5. Manage the props budget and track expenses.
+6. Supervise prop artisans, carpenters, and assistant prop managers.
+7. Plan and assign labor and resources for prop acquisition and construction.
+8. Provide stand-in items for early rehearsals.
+9. Set up and manage props tables backstage.
+10. Ensure actors have their props before going on stage.
+11. Maintain prop continuity throughout the production.
+12. Secure valuable props after each performance.
+13. Coordinate the return of rented or borrowed items.
+14. Organize prop storage between performances.
+15. Manage the strike process for props at the end of the production.
+16. Maintain an inventory of props and manage the props storage area.
+17. Research historical accuracy of props for period productions.
+18. Train actors on proper use of props when necessary.
+19. Manage the transportation of props to and from the production site.
+20. Organize the sale or disposal of props after the production ends.
+21. Work with special effects and stunts departments for specific prop requirements.
+22. Ensure props meet safety standards and regulations.
+23. Maintain and repair props as needed throughout the production.
+24. Create a "set and strike" schedule for props.
+25. Coordinate with the set decorator to ensure cohesive visual aesthetics.
+26. Oversee the creation of custom props when necessary.
+27. Manage food styling for scenes involving food props.
+28. Handle animals used as props (in some productions).
+29. Maintain logical progression of props throughout the story (props breakdown).
 
 ---
 
@@ -55,36 +59,36 @@ The **Stage Manager** is responsible for the smooth operation of all activities 
 
 ### Responsibilities
 
-1. **Attend all rehearsals and performances**.
-2. **Create and manage the master calendar** for rehearsals, deadlines, and performances.
-3. **Coordinate auditions** with the director.
-4. **Handle script distribution and collection**.
-5. **Prepare cast and crew contact lists**.
-6. **Tape out the set dimensions** on the rehearsal floor.
-7. **Set up and clean the rehearsal and performance spaces**.
-8. **Record the director's blocking** and assist actors with it.
-9. **Take line notes** and prompt actors when needed.
-10. **Manage rehearsal props and furniture**.
-11. **Chair production meetings**.
-12. **Develop preset lists and running order lists**.
-13. **Organize backstage storage areas**.
-14. **Write and distribute daily rehearsal, production meeting, and performance reports**.
-15. **Facilitate communication between production staff, cast, and crew**.
-16. **Record all technical cues** in the prompt book.
-17. **Manage the production callboard**.
-18. **Monitor actors' attendance and punctuality**.
-19. **Coordinate technical and dress rehearsals**.
-20. **Supervise technicians, deck hands, and board operators**.
-21. **Organize and supervise special rehearsals** (fight calls, dance combinations, etc.).
-22. **Call all cues** during performances.
-23. **Create and maintain the prompt book** (master copy of the script).
-24. **Work closely with the director** during rehearsals.
-25. **Ensure the production runs smoothly** and as the director intended.
-26. **Coordinate with designers and craftspeople**.
-27. **Manage set changes** and create furniture and prop plans.
-28. **Oversee the entire show** during each performance.
-29. **Solve problems and answer questions** for cast and crew.
-30. **Maintain safety protocols backstage**.
+1. Attend all rehearsals and performances.
+2. Create and manage the master calendar for rehearsals, deadlines, and performances.
+3. Coordinate auditions with the director.
+4. Handle script distribution and collection.
+5. Prepare cast and crew contact lists.
+6. Tape out the set dimensions on the rehearsal floor.
+7. Set up and clean the rehearsal and performance spaces.
+8. Record the director's blocking and assist actors with it.
+9. Take line notes and prompt actors when needed.
+10. Manage rehearsal props and furniture.
+11. Chair production meetings.
+12. Develop preset lists and running order lists.
+13. Organize backstage storage areas.
+14. Write and distribute daily rehearsal, production meeting, and performance reports.
+15. Facilitate communication between production staff, cast, and crew.
+16. Record all technical cues in the prompt book.
+17. Manage the production callboard.
+18. Monitor actors' attendance and punctuality.
+19. Coordinate technical and dress rehearsals.
+20. Supervise technicians, deck hands, and board operators.
+21. Organize and supervise special rehearsals (fight calls, dance combinations, etc.).
+22. Call all cues during performances.
+23. Create and maintain the prompt book (master copy of the script).
+24. Work closely with the director during rehearsals.
+25. Ensure the production runs smoothly and as the director intended.
+26. Coordinate with designers and craftspeople.
+27. Manage set changes and create furniture and prop plans.
+28. Oversee the entire show during each performance.
+29. Solve problems and answer questions for cast and crew.
+30. Maintain safety protocols backstage.
 
 ---
 
@@ -236,5 +240,4 @@ class PropManager:
     def manage_food_styling(self):
         """Manage food styling for scenes involving food props."""
         # Implementation for food styling
-        pass
-
+       
