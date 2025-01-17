@@ -88,51 +88,69 @@ The **Stage Manager** is responsible for the smooth operation of all activities 
 
 ---
 
-## UDM for PropManager
+PropManager is a class.
 
-```python
-class PropManager:
-    def __init__(self):
-    
-        # A comprehensive list of all Prop's to be in the game categorized by an unique id.
-        self.props_list = {}
+	##########################
+	During its construction the PropManager:
+		SETS a Table (null_objects_table) of GenericObjectType instances catalogued by the keyword `classname`, 
+		an Table (inventory_table) of Objects prefabs catalogued by the keyword `prop_id`,
+		and an Table (prop_continuity_table) containing two lists, catalogued by:
+			`buffer_list`: a List of keywords `prop_id`,
+			`cache_list`: a List of keywords `prop_id`.
+	##########################
 
-        # A comprehensive list of the prefabs of all the Prop's to be in the game categorized by an unique id.
-        self.inventory = {}
+	##########################
+	The function `nullify` takes a GenericObjectType type (object_class_arg) as a parameter, when executed it:
+		DEFINES GenericObjectType (nullptr) AS Empty,
+		VERIFIES if the classname has been added to the local Table (null_objects_table) if it hasn't:
+			CREATE an empty instance of the object (nullptr),
+			and ADD the instance (nullptr), to the local Table (null_objects_table),
+		and finally RETURNS the local instance (nullptr).
+			
+	##########################
 
-        # A list of Props divided by: 
-        # public - Props that exist in the game at the moment of gameplay categorized by prop id.
-        # cache - Cached Props are added when a Prop is created, modified, updated or deleted during a game session, as a safeguard.
-        self.prop_continuity = {public:{}, cache:{}}
+	##########################
+    	The function `read_script` takes File object instace (script_file_arg) as a parameter; it then reads the script by:
+    		VERIFYING the File Object instance (script_file_arg) is fit to use, and if it isn't the function will:
+    			RAISE an error,
+    			and EXIT the program urgently.
 
-    def nullify(class):
-        """Creates an instance of a NullObject type based on the class passed as a parameter."""
-        # Implementation for searching for the empty object in prop_continuity.
-		# Implementation for making a Prop instance into a Null object if None is found.
-		# Implementation for adding the Null object to prop_continuity.
-
-	# Verify if an instance of the NullObject we are looking for already lives in the class, if it does not:
-		# Ceate an instance of a NullObject,
-		# add the instance to the local repository.
-	# However, if the NullObject has been already created and can be found in the local repository:
-		# Get the NullObject,
-		# Return the NullObject.
-
-	# Returns Null Object.
-	return None
-
-    def read_script(self, script):
-        """Read and break down the script to create a detailed props list."""
-        # Implementation to parse the script...
-		# Implementation for adding props to inventory. 
-        returns {}
-
-    def finalize_requirements(self, title_id):
-        """Generates and returns a toolbox designed for an unique title_id."""
-        # Finds the architecture for title_id
-		# If none is found, leave with nullify(PropToolbox)
-	# If one is found, create the toolbox in accordance with their blueprint.
-        return PropToolbox
+        	SETTING a List of words (excerpt_list).
+        
+		FOR each (line) in the script_file, the function:
+			VERIFIES if the prop flag is set to true, because if it does the function will:
+				a) VERIFY if the current line contains a token for creating a new prop, because if the line contains such token then the function:
+					RAISES an error,
+					and EXIT the program urgently;
+				b) VERIFY if the current line contains a token for ending the creation of a new prop, because if the line contains such token then the function:
+					SETS the prop flag to false,
+					ADDS the new excerpt to excerpts_list,
+					CLEANS the excerpt_list from all words,
+					and CONTINUES to the next line;
+				c) ONLY AFTER all the previous tests have deemed the line a part of a prop, the function will: 
+					ADD the line to the excerpt_list,
+					and CONTINUE to the next line;
+					
+		For each (excerpt) in the excerpt_list, the function: 
+			VERIFIES if the excerpt has all the data required to be turned into a prefab, and if it doesn't the function will:
+				RAISE a warning,
+				and CONTINUE to the next line;
+			ONLY AFTER the function will:
+				FORMAT the data to resemble a prop prefab,
+				ADD the prefab TO the local inventory. 
+	##########################		
+        
+        ##########################
+        The FUNCTION `generate_propbox` takes a Manager instance (manager_arg) as a parameter, it then generates a Propbox by:
+        	DEFINING an instance of a Propbox (box) AS a New instance of a Propbox with the Manager instance (manager_arg) passed during construction;
+        	
+        	# FOR each List of Words (prop_prefab) in local Table (inventory_table):
+        		DEFINE a Prop instance (tmp) AS a New instance of a Prop with the List of Words (prop_prefab) passed during construction,
+        		ADD the Prop instance (tmp) TO the Propbox instance (box)
+        	
+        	Once all is done, it RETURNS the instance of a Propbox (box).
+        ##########################
+        
 
     def attend_meetings(self, PropToolbox, {additions}):
         """Modifies a toolbox without changing their blueprint."""
