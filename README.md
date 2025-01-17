@@ -93,19 +93,21 @@ PropManager is a class.
 	##########################
 	During its construction the PropManager:
 		SETS a Table (null_objects_table) of GenericObjectType instances catalogued by the keyword `classname`, 
-		an Table (inventory_table) of Objects prefabs catalogued by the keyword `prop_id`,
-		and an Table (prop_continuity_table) containing two lists, catalogued by:
+		a Table (inventory_table) of Objects prefabs catalogued by the keyword `prop_id`,
+		and a Table (prop_continuity_table) containing two lists, catalogued by:
 			`buffer_list`: a List of keywords `prop_id`,
 			`cache_list`: a List of keywords `prop_id`.
 	##########################
 
 	##########################
 	The function `nullify` takes a GenericObjectType type (object_class_arg) as a parameter, when executed it:
-		DEFINES GenericObjectType (nullptr) AS Empty,
-		VERIFIES if the classname has been added to the local Table (null_objects_table) if it hasn't:
-			CREATE an empty instance of the object (nullptr),
-			and ADD the instance (nullptr), to the local Table (null_objects_table),
-		and finally RETURNS the local instance (nullptr).
+		DEFINES GenericObjectType instance (nullptr) TO Empty,
+		VERIFIES if the classname has been added to the local Table (null_objects_table), if it has:
+			SET GenericObjectType instance TO the instance of a null object located in local Table (null_object_table),
+		HOWEVER, if the classname hasn't been added yet:
+			SET the GenericObjectType (nullptr) TO an empty instance of a GenericObjectType,
+			ADD the instance (nullptr), TO the local Table (null_objects_table),
+		and finally RETURNS the GenericObjectType instance (nullptr).
 			
 	##########################
 
@@ -115,9 +117,9 @@ PropManager is a class.
     			RAISE an error,
     			and EXIT the program urgently.
 
-        	SETTING a List of words (excerpt_list).
+        	SETTING a List of Words (excerpt_list).
         
-		FOR each (line) in the script_file, the function:
+		#FOR each (line) in the script_file, the function:
 			VERIFIES if the prop flag is set to true, because if it does the function will:
 				a) VERIFY if the current line contains a token for creating a new prop, because if the line contains such token then the function:
 					RAISES an error,
@@ -127,15 +129,15 @@ PropManager is a class.
 					ADDS the new excerpt to excerpts_list,
 					CLEANS the excerpt_list from all words,
 					and CONTINUES to the next line;
-				c) ONLY AFTER all the previous tests have deemed the line a part of a prop, the function will: 
+				c) ONLY AFTER, the function will: 
 					ADD the line to the excerpt_list,
 					and CONTINUE to the next line;
 					
-		For each (excerpt) in the excerpt_list, the function: 
+		#For each (excerpt) in the excerpt_list, the function: 
 			VERIFIES if the excerpt has all the data required to be turned into a prefab, and if it doesn't the function will:
 				RAISE a warning,
 				and CONTINUE to the next line;
-			ONLY AFTER the function will:
+			ONLY AFTER, the function will:
 				FORMAT the data to resemble a prop prefab,
 				ADD the prefab TO the local inventory. 
 	##########################		
@@ -144,7 +146,7 @@ PropManager is a class.
         The FUNCTION `generate_propbox` takes a Manager instance (manager_arg) as a parameter, it then generates a Propbox by:
         	DEFINING an instance of a Propbox (box) AS a New instance of a Propbox with the Manager instance (manager_arg) passed during construction;
         	
-        	# FOR each List of Words (prop_prefab) in local Table (inventory_table):
+        	#FOR each List of Words (prop_prefab) in local Table (inventory_table):
         		DEFINE a Prop instance (tmp) AS a New instance of a Prop with the List of Words (prop_prefab) passed during construction,
         		ADD the Prop instance (tmp) TO the Propbox instance (box)
         	
