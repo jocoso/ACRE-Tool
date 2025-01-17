@@ -87,19 +87,16 @@ The **Stage Manager** is responsible for the smooth operation of all activities 
 30. Maintain safety protocols backstage.
 
 ---
-
+```
 PropManager is a class.
 
-	##########################
 	During its construction the PropManager:
 		SETS a Table (null_objects_table) of GenericObjectType instances catalogued by the keyword `classname`, 
-		a Table (inventory_table) of Objects prefabs catalogued by the keyword `prop_id`,
+		a Table List of Words (inventory_table) catalogued by the keyword `prop_id`,
 		and a Table (prop_continuity_table) containing two lists, catalogued by:
 			`buffer_list`: a List of keywords `prop_id`,
 			`cache_list`: a List of keywords `prop_id`.
-	##########################
 
-	##########################
 	The function `nullify` takes a GenericObjectType type (object_class_arg) as a parameter, when executed it:
 		DEFINES GenericObjectType instance (nullptr) TO Empty,
 		VERIFIES if the classname has been added to the local Table (null_objects_table), if it has:
@@ -109,9 +106,6 @@ PropManager is a class.
 			ADD the instance (nullptr), TO the local Table (null_objects_table),
 		and finally RETURNS the GenericObjectType instance (nullptr).
 			
-	##########################
-
-	##########################
     	The function `read_script` takes File object instace (script_file_arg) as a parameter; it then reads the script by:
     		VERIFYING the File Object instance (script_file_arg) is fit to use, and if it isn't the function will:
     			RAISE an error,
@@ -138,66 +132,66 @@ PropManager is a class.
 				RAISE a warning,
 				and CONTINUE to the next line;
 			ONLY AFTER, the function will:
-				FORMAT the data to resemble a prop prefab,
-				ADD the prefab TO the local inventory. 
-	##########################		
+				FORMAT the data to resemble a prop prefab, (prefab),
+				APPEND the List of Words (prefab) TO the Table of List of Words (inventory_table). 		
         
-        ##########################
         The FUNCTION `generate_propbox` takes a Manager instance (manager_arg) as a parameter, it then generates a Propbox by:
         	DEFINING an instance of a Propbox (box) AS a New instance of a Propbox with the Manager instance (manager_arg) passed during construction;
         	
         	#FOR each List of Words (prop_prefab) in local Table (inventory_table):
         		DEFINE a Prop instance (tmp) AS a New instance of a Prop with the List of Words (prop_prefab) passed during construction,
-        		ADD the Prop instance (tmp) TO the Propbox instance (box)
+        		APPEND the Prop instance (tmp) TO the Propbox instance (box)
         	
         	Once all is done, it RETURNS the instance of a Propbox (box).
-        ##########################
         
 
-    def attend_meetings(self, PropToolbox, {additions}):
-        """Modifies a toolbox without changing their blueprint."""
-        # Asures PropToolbox is a healthy instance of the object before proceeding.
-	# Makes a copy of the Toolbox.
+	The FUNCTION `manual_update` takes a Propbox instance (pbox_param,) and a List of Words (spellscript_list_param) as parameters, it manually updates a Propbox by:
+		VERIFYING if the Propbox instance (pbox_param) is empty, because if it is the function should:
+			RAISE an Error,
+			EXIT program urgently
+		
+		and #FOR each (spellscript) in the List of Words (spellscript_list_param):
+			APPEND the spellscript to the Propbox instance (pbox_param)
+		
+		then EXECUTING local FUNCTION `verify_prop_qc` with the Propbox instance (pbox_param), as a parameter.
+		
+	The FUNCTION `generate_prop` takes two List of Words, (prefab_prop_arg) and (tag_list_arg) as a parameters, it generates a Prop by:
+		CREATING an intance of Prop (tmp_prop) WITH a New instance of a Prop with the List of Words (tag_list_arg) passed as parameter during construction;
+		EXECUTING local FUNCTION `build_prop` WITH Propbox instance (tmp_prop) as a parameter during construction.
+		RETURNING the Prop instance (prefab_prop_arg)
+		
+	The FUNCTION `get_debugger`, grants access to a debugger by:
+		GENERATING? a debugger and,
+		RETURNING the debugger;
 
-	# 	If the instance is unhealthy, raises a Warning and returns an instance of nullify(PropToolbox)
-
-	# Go through the list of additions:
-	#	Generate addition (if needed)
-	#	Integrate addition to toolbox
-        
-	# returns a changed toolbox. The lifecycle of this box lasts for as long as the intance exists and ceases existing inside this class after returned.
-	return PropToolbox
-
-    def source_props(self, {tags}, prefab_prop):
-        """Creates and returns an instance of a prop following the Script tags and the prop prefab."""
-        # If prefab_prop, instantiate an empty instance of type prefab_prop.
-	#	Otherwise, instantiate an empty instance of type Prop
-
-	# Traverse the list of tags, for each tag:
-	#	Assign an appropriate spellScripts to the empty Prop.
-        return Prop
-
-    def manage_budget(self):
-        """Debugger"""
-        # TBD: Can work to determine efficient running. The `budget` will become synonymous with how well the framework executes.
-        return TBD
-
-    def supervise_artisans(self, prop):
-        """Helper function to check if a prop's health. Returns True if the prop can be used in game."""
-        # Verify prop is an intance of prop, if it is not:
-	# 	Trigger InvalidClassError
-	# Verify prop isn't empty, if it is:
-	# 	Trigger EmptyPropWarning
-	# Verify prop contains the SpellScript's required by tag, if it doesn't:
-	#	Calls source_prop function with prop as argument.
-        return Prop
+	The FUNCTION `prop_follows_qa` takes an instance of a Prop (prop_param) as a parameter, it verifies the prop follows quality assurance:
+		VERIFYING the Prop param (prop_param) is not empty, because if it is the function should:
+			RAISE a Warning, then
+			RETURN No.
+		GETTING the Prop instance's (prop_param) List of Words (prop_spellscripts),
+		then #FOR EACH List of Words (spellscript) in the List of Words (prop_spellscript),
+			VERIFY if the spellscript can be executed by the Prop instance (prop_param), because if it doesn't,
+				RAISE a Warning, then
+				RETURN No.
+		and finally, RETURNING Yes.
+		
+	The FUNCTION `update_inventory` takes an [optional] Table of objects (additional_props_param), and it updates the inventory by checking:
+		DESIGNING a List of Words (warning_log) before checking,
+		#FOR EACH Object (prop_prefab) in the Table of List of Words (inventory_table) so that the function can:
+			VERIFY Object (prop_prefab) contains the data needed to become an instance of a Prop, because if it doesn't the function needs to:
+				RAISE a Warning and,
+				APPEND the Warning message to List of Words (warning_log);
+			VERIFY Object (prop_prefab) is healthy BY EXECUTING local FUNCTION `prop_follows_qa` expecting a Yes from it, because if it return No the function needs to:
+				RAISE a Warning and,
+				APPEND the Warning message to List of Words (warning_log);
+		and finally RETURNING the List of Words (warning_log).
 
     def plan_resources(self, actors, items, sets, set_states):
         """Update and Organizes assets inside the local inventory."""
         # Verify the inventory is empty, if it is not:
 	#	Udates all the Props inside the local inventory.
-	# Insert actors to local inventory.
-	# Insert items to local inventory.
+	# Insert actors to local inventory,
+	# Insert items to local inventory,
 	# Insert set_states to local inventory.
         return None
 
@@ -384,4 +378,5 @@ PropManager is a class.
         # Return the newly created instance.
 	
 	return ConsumableProp
+```
        
