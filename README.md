@@ -175,7 +175,7 @@ PropManager is a class.
 				RETURN No.
 		and finally, RETURNING Yes.
 		
-	The FUNCTION `update_inventory` takes an [optional] Table of objects (additional_props_param), and it updates the inventory by checking:
+	The FUNCTION `update_inventory` takes an [optional] Table of objects (additional_props_param), and it updates the inventory by:
 		DESIGNING a List of Words (warning_log) before checking,
 		#FOR EACH Object (prop_prefab) in the Table of List of Words (inventory_table) so that the function can:
 			VERIFY Object (prop_prefab) contains the data needed to become an instance of a Prop, because if it doesn't the function needs to:
@@ -186,146 +186,84 @@ PropManager is a class.
 				APPEND the Warning message to List of Words (warning_log);
 		and finally RETURNING the List of Words (warning_log).
 
-    def plan_resources(self, actors, items, sets, set_states):
-        """Update and Organizes assets inside the local inventory."""
-        # Verify the inventory is empty, if it is not:
-	#	Udates all the Props inside the local inventory.
-	# Insert actors to local inventory,
-	# Insert items to local inventory,
-	# Insert set_states to local inventory.
-        return None
+	The FUNCTION `provide_testing_props` provides testing props by:
+		DESIGNING a List of Props (testing_props), then
+		DESIGNING an instance of a Prop (new_prop) BY CREATING a new Object with an Object (prefab) as an argument, then
+		#FOR EACH Object (prefab) in the Table of Objects (inventory_table) the function will:
+			VERIFIES Object (prop_prefab) is healthy BY EXECUTING local FUNCTION `prop_follows_qa` expecting a Yes from it, because if it return No the function needs to:
+				RAISE a Warning and,
+				CONTINUE with the next Object (prefab);
+			APPENDS the instance of the prop to the List of Props (testing_props); 
+		finally it RETURNING a List of Prop instances (testing_props).
+		
+	The FUNCTION  `mantain_prop_continuity` takes an instance of a Prop (prop_param) and a Word (location_param) as parameters, the function mantains prop continuity by:
+		SWITCHing depending of the Word (location_param); it switches to:
+			VERIFY SWITCHing TO `buffer_list`:
+				VERIFY if the instance of a Prop's (prop_param) [unique] Word (prop.id) IS IN the List of Words (prop_continuity_table.buffer_list), because if it is then we:
+					RAISE a Warning and,
+					KILL the FUNCTION lifecycle.
+				HOWEVER, if the instances don't match:
+					APPEND the [unique] Word (prop.id) TO the List of Words (prop_continuity_table.buffer_list) and
+					KILL the FUNCTION lifecycle.
+			VERIFY SWITCHing TO `cache_list`:
+				VERIFY the instance of a Prop (prop_param) [unique] Word (prop.id) IS IN the List of Words (prop_continuity_table.buffer_list), because if it isn't then the function:
+					RAISE a Warning and,
+					KILL the FUNCTION lifecycle.
+				HOWEVER, if the instances match, the function will:
+					REMOVE the [unique] Word (prop.id) FROM the List of Words (prop_continuity_table.buffer_list),
+					APPEND the [unique] Word (prop.id) TO the List of Words (prop_continuity_table.cache_list) and
+					KILL the FUNCTION lifecycle.
+				OTHERWISE,
+					RAISE an Error and,
+					KILL the FUNCTION lifecycle.
+					
+	The FUNCTION `easy_clean`, assures the data has been saved before calling the garbage collector of the programming language, this is achieved by going  
+		#FOR EACH List of Words (prop_prefab) IN Table of Lists (inventory_table) then proceeding to
+			TRY TO:
+				EXECUTE LOCAL Function `maintain_inventory`,
+				"SAVE" the instance of Prop before
+				"PERFORM"ing additional pre-closing requirements and finally
+				EXITing the PROGRAM gracefully. However, there is a
+			CATCH; in the chance an Error type (UpdateError) occurs, the function would need to: 
+					RAISE an Error and
+					EXIT the PROGRAM urgently.
+			[and the same types of errors should be catched for saving, performing and exiting the program...]
+			
 
-    def provide_stand_in_items(self):
-        """Returns a testing set."""
-        # Call the local source_prop function with a 'testing' tag and a TestingSet class for arguments, however if there is an issue:
-	#	Raise a BasicWarning,
-	#	Call local nullify function with a Set class as argument.
-        return Set
+	The FUNCTION `train_actor` takes an instance of an Actor object (actor_param), and an intance of AI_Type object (ai_type), the function will train an actor by
+		TRYing TO:
+			EXECUTE the FUNCTION named `enact` that lives within the Actor object (actor_param) with the instance of AI_Type object (ai_type) as only argument. However, there is a
+		CATCH; in the chance an Error type (TrainWreckError) occurs, the function would need to:
+			DISPLAY the Error and
+			EXIT the PROGRAM urgently.
 
-    def setup_props_table(self, previous_table, updated_table):
-        """Adds props to the table at any point. The lifecycle of these props will lasts for as long as the save exists and will be resetted once a new game is started.
-"""
-        # Compare the tables,
-	# Update what is the same,
-	# Insert what is different only if the instace is healthy, if it is not:
-	# 	Raise BasicError and exit.
-        pass
-
-    def ensure_actor_access(self, {Actor}, auth_level):
-        """Changes the level of authorization for at least one instance of Author."""
-        # Verify the list has at least one actor, if not:
-	#	Raise BasicWarning,
-	#	return nothing.
-
-        # For each actor instance in the list:
-	#	Update the instance auth_level
-	return {Actor}
-
-    def maintain_continuity(self, Prop):
-        """Tracks the changes done to each prop and save the previous iteration. This prop function deletes the previous saved instance in the map and substitute it with the new iteration."""
-	# Verify the prop id is in prop_continuity.basic, if it isnt:
-	#	Verify the prop id is in prop_continuity.cache, if it is:
-	#		Function assumes the screenwriter wants the prop back into the game and does so.
-	#	However, if the prop is not in prop_continuity.cache:
-	#		Raise PropNotFoundError and exit.
 	
-	# Verify the prop id is in prop_continuity.cache, if it isnt:
-	# 	Insert the Prop instance located in prop_continuity.basic in prop_continuity.cache by using the prop_unique_id as key.
-	# However, if the prop id is already in prop_continuity.cache:
-	#	Replace the previous instance with the current instance located at prop_continuity.basic,
-	#	Replace the variable containing the previous Prop instance for the new one.
-        return self.prop_continuity.basic
+	The FUNCTION `generate_prop` takes a Word (prop_id_param) as sole parameter, and it generates an instance of a Prop by:
+		VERIFYing if the local Table of Objects (inventory_table) has a key/value pair linked to the Word (prop_id_param) because if it does then it will:
+			CREATE an instance of an Object WITH GET the Object FROM the local Table (inventory_table) using the Word (prop_id_param) as key then it will 
+			TRY TO:
+				DESIGN an instance of Prop (prop_foo), BY CREATING a NEW instance of Prop with the Object (prop_prefab) as argument and
+				RETURN the instance of Prop (prop_foo). However, there is a 
+			CATCH; in the case an Error type (DesignError) occurs, the function would need to:
+				RAISE an Error and
+				EXIT the PROGRAM urgently.
 
-    def secure_valuable_props(self, "script-excerpt"):
-        """Used to instantiate system Props, if or when they are needed."""
-        # While traversing the script-excerpt:
-	#	Verify the excerpt can be turned into a Prop, if it can't:
-	#		Raise UqualifiedSystemPropError and exit
-	#	If the section can be turned into a Prop:
-	#		Instantiate an empty Prop,
-	#		Fill the Prop with the data required,
-	#		Call source_props with the newly instantiate Prop as an argument.
-        pass
-
-    def coordinate_returns(self, prop_id_list):
-        """Deletes a list of props from the inventory and prop_continuity.basic."""
-        # Traverse each prop_id the prop_list:
-	#	Verify if the prop_id is in the inventory, if yes:
-	#		Delete the prop
-	#	Verify if the prop_id is in the prop_continuity.basic, if yes:
-	#		Delete the prop	
-        #	Returns the instance of the Prop that was deleted.
-	return Prop
-
-    def organize_storage(self, previous_storage, updated_storage):
-        """Update and save the inventory list to resemble the updated_storage."""
-        # Create an empty list and label it name_storage.
-	# Compare previous_storage with updated_storage, if item doesn't match:
-	#	add item to new list.
-	# however, if the item match:
-	# 	update item,
-	#	add the item to the new list.
-        # Replace previous_storage with the new_storage.
-	pass
-
-    def manage_strike_process(self):
-        """Reset the class by returning the  memory to the machine and killing the main loop."""
-        # Validate the user wants to execute this function, if not:
-	#	pass the execution.
-	# Traverse each item in local variable:
-	#	update item,
-	#	save item,
-	#	remove item from memory.
-        pass
-
-    def maintain_inventory(self):
-        """Updates the inventory."""
-        # Traverse each item in the local inventory:
-	#	update the item.
-        pass
-
-    def research(self, "script_excerpt"):
-        """Instantiates a generic Prop based on script excerpt argument."""
-        # Instantiate a Prop with tags from the script.
-	# Call supervise_prop with the new prop as an argument to add the SpellScript's.
-	# returns the generic prop.
-        return Prop
-
-    def train_actors(self, actor_foo, ai_player_type):
-        """Infuse an actor with AI."""
-        # Verify the ai_player_type exists in the list of AI's, if it does:
-	# 	Infuse the actor with the ai.
-	# However, if it doesn't exist:
-	#	Verify the screenwriter wants the program to use a generic ai, if they do:
-	#		Infuse the action with a generic ai.
-	# return the newly infused actor.
-        return Actor
-
-    def manage_transportation(self, requested_prop_id):
-        """Manage the transportation of props from inside this class to other classes."""
-        # Verify requested_prop is in the inventory, if it is:
-	#	Verify requested_prop is in the list of instantiated objects, if it is:
-	#		return the instance of the requested object.
-	#	However, if it is not in instantiated object:
-	#		Call local instantiate_prop with the prefab located in the inventory,
-	#		Insert instance into the list of instantiated objects.
-	# However, if the requested prop is not in the inventory:
-	# Insert into inventory
-	# return the newly created Prop
-        return Prop
-
-
-    def work_with_special_effects(self, script_excerpt):
-        """Creates a special effect Prop from a script_excerpt"""
-        # Analyze the Excerpt and Retrieve a list of prefabs from the excerpt.
-        # Insert each prefab into the local inventory.
-	pass
-
-    def ensure_safety_standards(self):
-        """Ensure props meet safety standards and regulations of the framework."""
-        # Verify that for each item x, x is missing no components.
-	# returns True if the condition above is met.
-        return True
+	The FUNCTION `to_spx` takes an instance of a Prop (prop_param) as a sole parameter; it [transforms] an instance of Prop into an instance of SPX by:
+		DESIGNing an instance of Object (arg_prefab) WITH an instance of Object (prop_param.param), then
+		TRYing TO successfully:
+			DESIGN an instance of SFX (new_sfx) WITH a NEW instance of SFX using instance of Object (arg_prefab) as parameter and,
+			RETURN such instance (new_sfx). however, the program sometimes may 
+		CATCH some Error of type (DesignError), when this happens the function should:
+			DISPLAY the Error in the OUTPUT and,
+			EXIT the PROGRAM urgently.
+			
+		
+	The FUNCTION `is_prop_functional` takes an Object (prefab_param) as a sole parameter; it returns a yes or no answer to if the prop is functional by:
+		VERIFYing the Object (prefab_param) that contains all the parts required by an instance of a Prop to be generated- if it does the function will,
+			  RETURNs a positive. 
+		OTHERWISE the program will be forced to,
+			RETURN a negative.
+	
 
     def maintain_and_repair(self, prop_id):
         """Maintain and repair props as needed throughout the lifecycle."""
