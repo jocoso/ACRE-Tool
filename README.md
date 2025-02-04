@@ -9,7 +9,6 @@ For the ACRE Tool to function, it requires a **screenplay**. A screenplay is a `
 - **A) Stage Manager**: Responsible for managing the intangible aspects (the story).
 - **B) Props Manager**: Responsible for managing the tangible aspects (stage props, actors, sets, etc.).
 
----
 
 ## Prop Manager
 
@@ -86,14 +85,13 @@ The **Stage Manager** is responsible for the smooth operation of all activities 
 29. Solve problems and answer questions for cast and crew.
 30. Maintain safety protocols backstage.
 
----
-```
+
 PropManager is a class.
 
-	During its construction the PropManager:
-		SETS a Table (null_objects_table) of GenericObjectType instances catalogued by the keyword `classname`, 
-		a Table List of Words (inventory_table) catalogued by the keyword `prop_id`,
-		and a Table (prop_continuity_table) containing two lists, catalogued by:
+	Its CONSTRUCTOR takes no arguments and it builds an instace of PropManager by:
+		DESIGNing a Table of instances of Prop (null_objects_table) WITH a New instance of a Table that CATALOGUES instances of Prop by USING a Word (prop.id); 
+		DESIGNing a List of Objects (inventory_table) WITH a New instance of a Table that CATALOGUES Objects USING a Word (prop_id) and,
+		DESIGNing a Table of Lists (prop_continuity_table) WITH a  containing two lists, catalogued by:
 			`buffer_list`: a List of keywords `prop_id`,
 			`cache_list`: a List of keywords `prop_id`.
 
@@ -200,8 +198,8 @@ PropManager is a class.
 		SWITCHing depending of the Word (location_param); it switches to:
 			VERIFY SWITCHing TO `buffer_list`:
 				VERIFY if the instance of a Prop's (prop_param) [unique] Word (prop.id) IS IN the List of Words (prop_continuity_table.buffer_list), because if it is then we:
-					RAISE a Warning and,
-					KILL the FUNCTION lifecycle.
+				RAISE a Warning and,
+				KILL the FUNCTION lifecycle.
 				HOWEVER, if the instances don't match:
 					APPEND the [unique] Word (prop.id) TO the List of Words (prop_continuity_table.buffer_list) and
 					KILL the FUNCTION lifecycle.
@@ -228,14 +226,6 @@ PropManager is a class.
 					RAISE an Error and
 					EXIT the PROGRAM urgently.
 			[and the same types of errors should be catched for saving, performing and exiting the program...]
-			
-
-	The FUNCTION `train_actor` takes an instance of an Actor object (actor_param), and an intance of AI_Type object (ai_type), the function will train an actor by
-		TRYing TO:
-			EXECUTE the FUNCTION named `enact` that lives within the Actor object (actor_param) with the instance of AI_Type object (ai_type) as only argument. However, there is a
-		CATCH; in the chance an Error type (TrainWreckError) occurs, the function would need to:
-			DISPLAY the Error and
-			EXIT the PROGRAM urgently.
 
 	
 	The FUNCTION `generate_prop` takes a Word (prop_id_param) as sole parameter, and it generates an instance of a Prop by:
@@ -248,14 +238,6 @@ PropManager is a class.
 				RAISE an Error and
 				EXIT the PROGRAM urgently.
 
-	The FUNCTION `to_spx` takes an instance of a Prop (prop_param) as a sole parameter; it [transforms] an instance of Prop into an instance of SPX by:
-		DESIGNing an instance of Object (arg_prefab) WITH an instance of Object (prop_param.param), then
-		TRYing TO successfully:
-			DESIGN an instance of SFX (new_sfx) WITH a NEW instance of SFX using instance of Object (arg_prefab) as parameter and,
-			RETURN such instance (new_sfx). however, the program sometimes may 
-		CATCH some Error of type (DesignError), when this happens the function should:
-			DISPLAY the Error in the OUTPUT and,
-			EXIT the PROGRAM urgently.
 			
 		
 	The FUNCTION `is_prop_functional` takes an Object (prefab_param) as a sole parameter; it returns a yes or no answer to if the prop is functional by:
@@ -263,58 +245,6 @@ PropManager is a class.
 			  RETURNs a positive. 
 		OTHERWISE the program will be forced to,
 			RETURN a negative.
-	
 
-    def maintain_and_repair(self, prop_id):
-        """Maintain and repair props as needed throughout the lifecycle."""
-        # Verify if a prop exists with an id that matches prop_id, if one does:
-	# 	Verify if there is a prefab is saved already in the local inventory, if one does:
-	#		Retrieve the prefab,
-	#		Turn it into a Prop,
-	#		Replace the old instance with the newly created one.
-	# 		Return the newly created instance.
-        return Prop
-
-    def create_sets(self, script_excerpt):
-        """Returns an instance of Set object based on the excerpt."""
-        # Validate that the excerpt can be turned into a Set, if it can not:
-	# 	raise an error.
-
-	# Creates an prefab based on the script_excerpt.
-	# Pass it to the class to create a new Set.
-	# Test for integrity errors.
-	# Add the prefab to the inventory.
-	# Return the newly created Set
-
-        return Set
-
-    def coordinate_with_set_decorator(self, Set, {decorations}):
-        """Safetly applies decorations to a Set."""
-        # Verify the integrity of the Set to check it's healthy, if it isn't:
-	#	raise a warning.
-	#	Verify the user wants to proceed, if they don't:
-	#		exit gracefully.
-
-	# Integrate decoration into the Set.
-	# Return the Set.
-        return Set
-
-    def oversee_custom_props(self, script_excerpt or prefab):
-        """Returns a Prop without adding them to the local inventory."""
-        # Verify the excerpt will work as a prefab.
-	# Turn the excerpt into a prefab.
-	# Create an instance of the prefab.
-	# Return the newly created instance.
-	
-        return Prop
-
-    def manage_food_styling(self, script_excerpt):
-        """Returns a consumable prop based on the excerpt."""
-        # Verify the excerpt will work as a prefab.
-        # Turn the excerpt into a prefab.
-        # Create an instance of the prefab.
-        # Return the newly created instance.
-	
-	return ConsumableProp
-```
+   
        
