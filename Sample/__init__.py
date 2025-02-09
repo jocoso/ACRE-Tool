@@ -1,4 +1,5 @@
-from .board import Board
-from .displayer import Displayer
+from board import Board
+from displayer import Displayer
+from section import Section
 
-__all__ = ['Board', 'Displayer']
+__all__ = ['Board', 'Displayer', 'Section']
