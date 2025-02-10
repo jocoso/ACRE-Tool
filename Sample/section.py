@@ -1,14 +1,12 @@
 import os
 import textwrap
-from typing import List, Optional, Any
+from typing import List, Optional, Dict, Callable
 from abc import ABC, abstractmethod
-from input_handler import InputHandler
 from pynput.keyboard import Key
 
 class ContentNotFoundError(IndexError):
     """Custom exception raised when content is not found."""
     pass
-
 
 class Section(ABC):
     """
@@ -24,27 +22,25 @@ class Section(ABC):
         Initializes a Section object.
 
         Args:
-            section_name (str): The name of the section.
+            section_title (str): The title of the section.
             section_description (str): A description of the section.
         """
         self.section_title = section_title
         self.section_description = section_description
         self.section_content: List[str] = [Section.END_OF_SECTION_MARKER]
         self.section_is_read = False
-        self.section_input = InputHandler("section_input")
+        self.section_input: Dict[Key, Callable] = {}
+        
+        self.add_input(Key.right, self.next_page)
+        self.add_input(Key.left, self.previous_page)
         self.page_index = 0
 
+    def add_input(self, key: Key, function: Callable):
+        self.section_input[key] = function
     def add_content(self, content: str) -> int:
-        """Adds content to the section before the end marker.
-
-        Args:
-            content (str): The content to add.
-
-        Returns:
-            int: The ID (index) of the added content.
-        """
+        """Adds content to the section before the end marker."""
         self.section_content.insert(len(self.section_content) - 1, content)
-        return len(self.section_content) - 2  # return index of inserted content
+        return len(self.section_content) - 2
 
     def toggle_read(self) -> bool:
         """Toggles the read status of the section."""
@@ -56,73 +52,32 @@ class Section(ABC):
         return self.section_is_read
 
     def retrieve_content(self, id: int) -> Optional[str]:
-        """Retrieves content by its ID.
-
-        Args:
-            id (int): The ID of the content to retrieve.
-
-        Returns:
-            str: The content, or None if the ID is invalid.
-
-        Raises:
-            ContentNotFoundError: If the ID is out of range.
-        """
+        """Retrieves content by its ID."""
         try:
             return self.section_content[id]
         except IndexError:
-            print(f"Error: Index {id} is out of bounds.")  # Consider logging instead of printing
-            return None
-            # Or, you can raise the exception again:
-            # raise #Re-raise the IndexError
+            raise ContentNotFoundError(f"Content with ID {id} not found.")
 
     def is_name(self, name: str) -> bool:
-        """
-        Checks if the given name matches the section's name.
-
-        Args:
-            name (str): The name to compare.
-
-        Returns:
-            bool: True if the names match, False otherwise.
-        """
-        return self.section_title == name
+        """Checks if the given name matches the section's title."""
+        return self.section_title.lower() == name.lower()
 
     def get_name(self) -> str:
-        """
-        Returns the section name.
-
-        Returns:
-            str: The section name.
-        """
+        """Returns the section title."""
         return self.section_title
 
     def update_name(self, new_name: str) -> None:
-        """
-        Updates the name of the section.
-
-        Args:
-            new_name (str): The new name for the section.
-        """
-        if not new_name:
-            raise ValueError("Section name cannot be empty.")
+        """Updates the title of the section."""
+        if not new_name.strip():
+            raise ValueError("Section title cannot be empty.")
         self.section_title = new_name
 
     def get_description(self) -> str:
-        """
-        Returns the description of the section.
-
-        Returns:
-            str: The section description.
-        """
+        """Returns the description of the section."""
         return self.section_description
 
     def update_description(self, new_description: str) -> None:
-        """
-        Updates the description of the section.
-
-        Args:
-            new_description (str): The new description.
-        """
+        """Updates the description of the section."""
         self.section_description = new_description
 
     def next_page(self) -> None:
@@ -132,14 +87,12 @@ class Section(ABC):
 
     def previous_page(self) -> None:
         """Goes back to the previous page of content."""
-        print("Called")
         if self.page_index > 0:
             self.page_index -= 1
 
     def display(self, width: int = 80) -> None:
         """Displays the content of the section."""
-        # TODO: Add a module to go back and forth with a mouse for reading sections.
-        os.system('cls' if os.name == 'nt' else 'clear')  # cleans screen in terminal
+        os.system('cls' if os.name == 'nt' else 'clear')
         if 0 <= self.page_index < len(self.section_content):
             content = self.section_content[self.page_index]
             wrapped_text = textwrap.fill(content, width=width)
@@ -148,13 +101,11 @@ class Section(ABC):
             print("Error: Page index out of bounds")
 
     @abstractmethod
-    def update(self, key=str):
+    def update(self, key: str) -> None:
         """Update the section's state (e.g., animation, timers)."""
         pass
 
-
     def __repr__(self) -> str:
         """Returns a string representation of the Section object."""
-        return f"Section(name='{self.section_name}', description='{self.section_description}', is_read={self.section_is_read})"
-
+        return f"Section(title='{self.section_title}', description='{self.section_description}', is_read={self.section_is_read})"
 
